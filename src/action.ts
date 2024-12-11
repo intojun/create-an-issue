@@ -51,11 +51,20 @@ export async function createAnIssue(tools: Toolkit) {
   const env = nunjucks.configure({ autoescape: false });
   env.addFilter("date", dateFilter);
 
+  const targetDay = 4
+  const today = new Date();
+  const currentDay = today.getDay();
+    
+  const daysUntilTargetDay = targetDay - currentDay;
+    
+  const date = new Date(today);
+  thursday.setDate(today.getDate() + daysUntilTargetDay);
+
   const templateVariables = {
     ...tools.context,
     repo: tools.context.repo,
     env: process.env,
-    date: Date.now(),
+    date,
   };
 
   // Get the file
